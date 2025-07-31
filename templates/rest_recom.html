@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("/static/background_img.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff; /* Makes text readable on dark background */
+  }
+
+  .center-container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.7);  /* semi-transparent dark box */
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .title-overlay {
+    background-color: rgba(0, 0, 0, 0.5);  /* 50% transparent black */
+    padding: 15px 20px;
+    border-radius: 10px;
+    display: inline-block;
+  }
+
+  .title-overlay h1 {
+    color: #ffffff;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: none;
+  }
+
+  h1 {
+    color: #ffffff; /* Overridden from original gray to ensure readability */
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: left; 
+  }
+
+  select, input[type="file"], button {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    padding: 8px;
+    font-size: 1em;
+  }
+
+  button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #218838;
+  }
+
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+  .center-checkbox-wrapper {
+  text-align: center;
+}
+
+.center-checkbox-wrapper label {
+  display: inline-block;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+  <div class="center-container">
+  <div class="title-overlay">
+      <h1>Restaurant Recommendation</h1>
+    </div>
+
+  <form id="recommendationForm" method="POST" enctype="multipart/form-data" action="/get_recommendations">
+    <!-- Cuisine Dropdown -->
+    <label for="cuisine">Select Cuisine:</label>
+    <select name="cuisine" id="cuisine">
+      <option value="">Select</option>
+      {% for cuisine in cuisines %}
+        <option value="{{ cuisine }}">{{ cuisine }}</option>
+      {% endfor %}
+    </select>
+
+    <br><br>
+
+    <!-- Dish File Upload -->
+    <label for="dish_file">Upload Dish File - Text file with one dish per line</label>
+    <input type="file" id="dish_file" name="dish_file" accept=".txt">
+    <button type="button" id="upload_button">Upload Dish File</button>
+    <div class="center-checkbox-wrapper">
+      <label for="use_default">
+      <input type="checkbox" id="use_default" name="use_default">
+      Use default Indian dish file - And click upload button
+      </label>
+  </div>
+
+<br><br>
+
+    <!-- Dish Dropdown -->
+    <label for="dish">Select Dish after uploading dish file:</label>
+    <select name="dish" id="dish_dropdown">
+      <option value="">Select</option>
+    </select>
+    <br><br>
+
+    <!-- Display Selections -->
+    <p><strong>Selected Cuisine:</strong> <span id="selected_cuisine"></span></p>
+    <p><strong>Selected Dish:</strong> <span id="selected_dish"></span></p>
+
+    <!-- Submit Button -->
+    <button type="submit">Get Recommendations from Yelp Reviews</button>
+  </form>
+
+  <script>
+    // Update selected cuisine and dish display
+    document.getElementById("cuisine").addEventListener("change", function () {
+      document.getElementById("selected_cuisine").textContent = this.value;
+    });
+
+    document.getElementById("dish_dropdown").addEventListener("change", function () {
+      document.getElementById("selected_dish").textContent = this.value;
+    });
+
+    // Handle dish file upload
+  document.getElementById("upload_button").addEventListener("click", function () {
+  const useDefault = document.getElementById("use_default").checked;
+  const dropdown = document.getElementById("dish_dropdown");
+  dropdown.innerHTML = '<option value="">Select</option>'; // Reset
+
+  if (useDefault) {
+    fetch("/default_dish_list")
+      .then(response => response.json())
+      .then(data => {
+        if (data.dishes.length === 0) {
+          alert("No dishes found in default list.");
+        } else {
+          alert("Loaded default dish list successfully!");
+          data.dishes.forEach(dish => {
+            const option = document.createElement("option");
+            option.value = dish;
+            option.textContent = dish;
+            dropdown.appendChild(option);
+          });
+        }
+      })
+      .catch(error => {
+        console.error("Error loading default dish list:", error);
+        alert("Error loading default dish list.");
+      });
+  } else {
+    const fileInput = document.getElementById("dish_file");
+    if (!fileInput.files.length) {
+      alert("Please select a dish file and then upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("dish_file", fileInput.files[0]);
+
+    fetch("/upload_dish_file", {
+      method: "POST",
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.dishes.length === 0) {
+          alert("No dishes found in uploaded file.");
+        } else {
+          alert("Dish file uploaded successfully!");
+          data.dishes.forEach(dish => {
+            const option = document.createElement("option");
+            option.value = dish;
+            option.textContent = dish;
+            dropdown.appendChild(option);
+          });
+        }
+      })
+      .catch(error => {
+        console.error("Error uploading file:", error);
+        alert("Error uploading file. Ensure default dish file is not selected");
+      });
+  }
+});
+  </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+Hamburger
+Cheeseburger  
+Hot Dog  
+Fried Chicken  
+Barbecue Ribs  
+Buffalo Wings  
+Meatloaf  
+Chicken and Waffles  
+Turkey
+Pulled Pork Sandwich  
+Sloppy Joe  
+Chili
+Chicken Pot Pie  
+Philly Cheesesteak  
+Corn Dog  
+French Fries  
+Mashed Potatoes  
+Coleslaw  
+Baked Beans  
+Cornbread  
+Tater Tots  
+Potato Salad  
+Green Bean  
+Casserole  
+Cobb Salad  
+Caesar Salad  
+Waldorf Salad  
+Chef Salad  
+Macaroni Salad  
+Chicago Deep-Dish Pizza  
+New York-Style Pizza  
+Clam Chowder
+Gumbo   
+Jambalaya  
+Lobster Roll  
+Reuben Sandwich  
+Pastrami on Rye  
+Apple Pie  
+Pumpkin Pie  
+Pecan Pie  
+Brownies  
+Cheesecake (New York-style)  
+Banana Pudding  
+Ice Cream Sundae  
+Donuts  
+Root Beer  
+Milkshake  
+Iced Tea
+Lemonade  
+Coca-Cola
+Pepsi

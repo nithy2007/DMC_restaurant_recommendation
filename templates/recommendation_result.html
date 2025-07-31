@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recommendations</title>
+  <style>
+    .center-container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.8); 
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  ul {
+    display: block;
+    margin-top: 15px;
+    text-align: left; 
+  }
+  </style>
+</head>
+<body>
+  <div class="center-container">
+  <h1>Top {{ selected_cuisine }} Restaurants for "{{ selected_dish }}"</h1>
+  {% if recommendations %}
+  <ul>
+    {% for restaurant in recommendations %}
+      <li>{{ restaurant }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>{{ message }}</p>
+  {% endif %}
+  <a href="/restaurant_recommendation">Go Back</a>
+  </div>
+</body>
+</html>
