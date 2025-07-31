@@ -48,7 +48,7 @@ restaurant-recommendation-app/
 
 ##  Run Locally
 
-### 1. Clone the repo
+1. Clone the repo
 git clone https://github.com/your-username/restaurant-recommendation-app.git
 cd restaurant-recommendation-app
 
