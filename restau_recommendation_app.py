@@ -50,7 +50,7 @@ def recommend():
         dish_file = os.path.join(app.config['UPLOAD_FOLDER'], "uploaded_dish_list.txt")
 
     
-    base_path="/Users/shanmugam/Documents/Nithya_MCS_DS_Illinois/Datamining_capstone/"
+    base_path="/Users/shanmugam/Documents/Nithya_MCS_DS_Illinois/Datamining_capstone"
     results = get_top_restaurants(cuisine, dish, base_path, dish_file)
     if not results:
         return render_template("recommendation_result.html", recommendations=[],
