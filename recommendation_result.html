@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recommendations</title>
+</head>
+<body>
+  <h1>Top Restaurants</h1>
+  <ul>
+    {% for restaurant in recommendations %}
+      <li>{{ restaurant }}</li>
+    {% endfor %}
+  </ul>
+  <a href="/">Go Back</a>
+</body>
+</html>

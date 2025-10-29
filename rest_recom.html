@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Recommendation</title>
+</head>
+<body>
+  <h1>Restaurant Recommendation</h1>
+
+  <form id="recommendationForm" method="POST" enctype="multipart/form-data" action="/get_recommendations">
+    <!-- Cuisine Dropdown -->
+    <label for="cuisine">Select Cuisine:</label>
+    <select name="cuisine" id="cuisine">
+      {% for cuisine in cuisines %}
+        <option value="{{ cuisine }}">{{ cuisine }}</option>
+      {% endfor %}
+    </select>
+
+    <br><br>
+
+    <!-- Dish File Upload -->
+    <label for="dish_file">Upload Dish List File:</label>
+    <input type="file" id="dish_file" name="dish_file" accept=".txt">
+    <button type="button" id="upload_button">Upload Dish File</button>
+
+    <br><br>
+
+    <!-- Dish Dropdown -->
+    <label for="dish">Select Dish:</label>
+    <select name="dish" id="dish_dropdown">
+      <option value="">Select</option>
+    </select>
+
+    <br><br>
+
+    <!-- Display Selections -->
+    <p><strong>Selected Cuisine:</strong> <span id="selected_cuisine"></span></p>
+    <p><strong>Selected Dish:</strong> <span id="selected_dish"></span></p>
+
+    <!-- Submit Button -->
+    <button type="submit">Get Recommendations</button>
+</form>
+  
+
+  <script>
+    // Update selected cuisine and dish display
+    document.getElementById("cuisine").addEventListener("change", function () {
+      document.getElementById("selected_cuisine").textContent = this.value;
+    });
+
+    document.getElementById("dish_dropdown").addEventListener("change", function () {
+      document.getElementById("selected_dish").textContent = this.value;
+    });
+
+    // Handle dish file upload
+    document.getElementById("upload_button").addEventListener("click", function () {
+      const fileInput = document.getElementById("dish_file");
+      if (!fileInput.files.length) {
+        alert("Please select a dish file first.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("dish_file", fileInput.files[0]);
+
+      fetch("/upload_dish_file", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        const dropdown = document.getElementById("dish_dropdown");
+        dropdown.innerHTML = '<option value="">Select</option>'; // Reset
+
+        if (data.dishes.length === 0) {
+          alert("No dishes found in uploaded file.");
+        } else {
+          data.dishes.forEach(dish => {
+            const option = document.createElement("option");
+            option.value = dish;
+            option.textContent = dish;
+            dropdown.appendChild(option);
+          });
+        }
+      })
+      .catch(error => {
+        console.error("Error uploading file:", error);
+        alert("Error uploading file.");
+      });
+    });
+  </script>
+</body>
+</html>
