@@ -76,25 +76,20 @@ This project demonstrates an end-to-end pipeline combining:
 ---
 
 ## Project Structure
-project/
-│
-├── app.py
-├── get_restaurant_recommendations.py
-│
-├── templates/
-│ ├── rest_recomm.html
-│ └── recommendation_result.html
-│
-├── static/
-│ └── bg.jpg
-│
-├── data/
-│ ├── yelp_cuisine_biz_id_dict.json
-│ ├── yelp_academic_dataset_business.json
-│ └── sampled_restaurant_reviews_with_sentiment.json
-│
-├── uploaded_files/
-│ └── uploaded_dish_list.txt
+project
+  app.py
+  get_restaurant_recommendations.py
+templates
+  rest_recomm.html
+  recommendation_result.html
+static
+   bg.jpg
+data
+  yelp_cuisine_biz_id_dict.json
+  yelp_academic_dataset_business.json
+  sampled_restaurant_reviews_with_sentiment.json
+uploaded_files
+  uploaded_dish_list.txt
 ## Deployment Details
 
 - Hosted on: **AWS EC2 (t2.medium)**
